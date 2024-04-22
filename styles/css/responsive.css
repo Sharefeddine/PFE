@@ -1,0 +1,57 @@
+﻿@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+    .text {font-size: 11px}
+}
+@media screen and (max-width: 500px) {
+    .header a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+    .header-right {
+        float: none;
+    }
+}
+@media screen and (min-width: 768px) {
+    .list {
+        flex: 1 1 calc(50% - 20px);
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .list {
+        flex: 1 1 calc(33.33% - 20px);
+    }
+}
+/* responsvive */
+@-moz-keyframes myfirst {
+    0% {
+        left: -25%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@-webkit-keyframes myfirst {
+    0% {
+        left: -25%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes myfirst {
+    0% {
+        left: -25%;
+    }
+    100% {
+        left: 100%;
+    }
+}
