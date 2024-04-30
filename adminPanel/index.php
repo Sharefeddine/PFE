@@ -18,46 +18,39 @@ include("../inc/connect.php");
      <link rel="stylesheet" href="style/css/tables.css" type="text/css">
 </head>
 <body>
-    <style>
-    .tabless{
-       width: 100%;
-    }
-
-    </style>
+<style>.tabless{width: 100%;}</style>
 <?php include("sidemenu.php"); ?>
   <section class="home-section">
     <nav>
       <div class="sidebar-button">
         <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard">Page d'accuile</span>
+        <span class="dashboard">Home Page</span>
       </div>
-      <div class="profile-details">
-                <span class="admin_name"><?php echo($_SESSION['nom_c']);?></span>
-            </div>
+      <div class="profile-details"><span class="admin_name"><?php echo($_SESSION['fullName']);?></span></div>
     </nav>
     <div class="home-content">
       <div class="overview-boxes">
         <div class="box">
           <div class="right-side">
-            <div class="box-topic">Total Patients<br> ce mois-ci</div>
+            <div class="box-topic">Total Active Clients<br></div>
             <div class="number"><?php echo($dataMR); ?></div>
           </div>
           </div>
          <div class="box">
           <div class="right-side">
-            <div class="box-topic">Total Patients<br>cette année</div>
+            <div class="box-topic">Total Added Clients<br>today</div>
             <div class="number"><?php echo($dataMY); ?></div>
           </div>
         </div>
         <div class="box">
           <div class="right-side">
-            <div class="box-topic">Bénéfice total<br> ce mois-ci</div>
+            <div class="box-topic">Total Active Clients<br> this month</div>
             <div class="number"><?php echo($dataINM); ?>DA</div>
           </div>
         </div>
         <div class="box">
           <div class="right-side">
-            <div class="box-topic">Bénéfice total<br>cette année</div>
+            <div class="box-topic">Total Active Clients<br>this year</div>
             <div class="number"><?php echo($dataINY); ?> DA</div>
           </div>
         </div>
@@ -65,7 +58,7 @@ include("../inc/connect.php");
       <div class="sales-boxes">
         <div class="recent-sales box">
             <div class="tabless">
-                 <div class="title">Rendez-vous récent</div>
+                 <div class="title">Recent Clients</div>
           <div class="sales-details">
            <table>
                <tr>
@@ -75,22 +68,20 @@ include("../inc/connect.php");
                    <td>date</td>
                </tr>
         <?php
-         $query= "select * from patient p INNER JOIN rendez_vous r on p.idPatient=r.idPatient ORDER BY `r`.`idPatient` DESC LIMIT 10;";
+         $query= "SELECT * FROM clients c INNER JOIN subscription s ON c.id = s.clientID WHERE s.endDate > CURDATE() ORDER BY s.startDate LIMIT 10;";
           $q = $conn->query($query);
           $q->setFetchMode(PDO::FETCH_ASSOC);
           $Count = $q->rowCount();
           if($Count>0)  {
             while($row= $q->fetch()) {
-                $nom = $row['nomP'].' '.$row['prénomP'];
-                 echo '<tr>
-        <td>'.$nom.'</td>
-        <td>'.$row['emailP'].'</td>
-        <td>'.$row['télP'].'</td>
-        <td>'.$row['dateR'].'/'.$row['heureR'].'</td>
-      </tr>';
-                 }
+            echo '<tr>
+            <td>'.$row['name'].'</td>
+            <td>'.$row['email'].'</td>
+            <td>'.$row['mobile'].'</td>
+            </tr>';
+            }
           }else {
-          echo"<tr><td>Aucune donnée disponible</td></tr>";
+          echo"<tr><td>No data</td></tr>";
           }
         ?>
            </table>

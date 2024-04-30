@@ -10,25 +10,20 @@
 <body>
     <div class="container">
         <div class="img">
-         <img src="style/images/login.png">
+         <img src="style/images/logo.jpg">
         </div>
         <div class="login-content">
-            <form action="" method="post">
-                <img src="style/images/logo.jpg">
+            <form  method="post" novalidate="novalidate">
                 <h2 class="title">Welcome</h2>
            		<div class="input-div one">
-           		   <div class="i">
-           		   		<i class="fas fa-user"></i>
-           		   </div>
+           		   <div class="i"><i class="fas fa-user"></i></div>
            		   <div class="div">
            		   		<h5>Email</h5>
            		   		<input type="text" class="input" name="email" required="required">
            		   </div>
            		</div>
            		<div class="input-div pass">
-           		   <div class="i">
-           		    	<i class="fas fa-lock"></i>
-           		   </div>
+           		   <div class="i"><i class="fas fa-lock"></i></div>
            		   <div class="div">
            		    	<h5>password</h5>
            		    	<input type="password" class="input" name="password" required="required">
@@ -38,29 +33,41 @@
             </form>
         </div>
     </div>
-
   <?php
-      ob_start();
+  ob_start();
 if (isset($_POST["login"])) {
+   // echo "<script>alert('pressed');</script>";
     include("../inc/connect.php");
     $email = $_POST["email"];
-    $password = $_POST["password"];
-    $password = md5($password);
-    $query = "SELECT * FROM admin WHERE email = '".$email."' AND password = '".$password."'";
-    $statement = $conn->prepare($query);
-    $statement->execute();
-    $count = $statement->rowCount();
+    $password = md5($_POST["password"]);
+    $query1 = "SELECT * FROM clients WHERE email = '".$email."' AND password = '".$password."'";
+    echo($query1);
+    echo "<script>alert('".$query1."');</script>";
+    $statement1 = $conn->prepare($query1);
+    $statement1->execute();
+    $count = $statement1->rowCount();
     if ($count > 0) {
-        $row = $statement->fetch();
+        $row = $statement1->fetch();
         session_start();
         $_SESSION["email"] = $email;
-        $_SESSION["fullName"] = $row['firstName']." ".$row['lastName'];
-        $_SESSION["id"] = $row['id'];
-        header('Location:index.php');
-        ob_end_flush();
-        exit();
+        $_SESSION["fullName"] = $row['fullname'];
+        $query2 = "SELECT * from subscription where clientID='".$row['id']."'";
+        $stmt2 = $conn->prepare($query2);
+        $stmt2->execute();
+        $row2 = $stmt2->fetch();
+        $currentDate = new DateTime();
+        $endDate = new DateTime($row2['endDate']);
+        if($endDate>$currentDate){
+          $_SESSION["carID"] = $row2['carID'];
+          header('Location:index.php');
+          ob_end_flush();
+          exit();
+        } else {
+            echo "<script>alert('Your subscription has expired! Please contact the nearest agency to renew it. Thank you!');</script>";
+        echo "<label></label>";
+        }
     } else {
-        echo "<label>ERROR</label>";
+        echo "<script>alert('ERROR');</script>";
     }
 }
 
