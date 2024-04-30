@@ -1,0 +1,26 @@
+﻿td {
+    border: 1px solid;
+}
+h1{
+text-align: center;
+}
+#box{
+    border: 3px solid ;
+}
+td,th {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid;
+}
+#vig{
+    margin:auto;
+  border-collapse: collapse;
+    border: 1px solid;
+}
+.left-label {
+text-align: left;
+}
+.right-label {
+text-align: right;
+}
+
